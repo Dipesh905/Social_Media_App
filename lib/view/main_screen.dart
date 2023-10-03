@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_social_media_app/controller/main_screen_controller.dart';
 import 'package:flutter_social_media_app/view/home_screen.dart';
-import 'package:flutter_social_media_app/view/to_do_screen.dart';
+import 'package:flutter_social_media_app/to_do_module/view/to_do_screen.dart';
 import 'package:flutter_social_media_app/view/users_screen.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +12,7 @@ class MainScreen extends StatelessWidget {
 
   final List<Widget> screens = [
     const HomeScreen(),
-    const ToDoScreen(),
+    ToDoScreen(),
     const UsersScreen()
   ];
 
@@ -23,10 +23,6 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('SocialMediaApp'),
-      ),
       body: Obx(
         () => screens[mainScreenController.index.value],
       ),
