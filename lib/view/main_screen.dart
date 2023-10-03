@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_social_media_app/controller/main_screen_controller.dart';
-import 'package:flutter_social_media_app/view/home_screen.dart';
+import 'package:flutter_social_media_app/posts_module/view/posts_screen.dart';
 import 'package:flutter_social_media_app/to_do_module/view/to_do_screen.dart';
 import 'package:flutter_social_media_app/view/users_screen.dart';
 import 'package:get/get.dart';
@@ -11,7 +11,7 @@ class MainScreen extends StatelessWidget {
   final Controller mainScreenController = Get.put(Controller());
 
   final List<Widget> screens = [
-    const HomeScreen(),
+    PostsScreen(),
     ToDoScreen(),
     const UsersScreen()
   ];
