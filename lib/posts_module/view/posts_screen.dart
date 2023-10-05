@@ -54,10 +54,6 @@ class PostsScreen extends StatelessWidget {
                                 ],
                               ),
                               IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.comment_bank),
-                              ),
-                              IconButton(
                                 onPressed: () {
                                   Get.to(
                                     AddOrUpdatePostScreen(
@@ -66,7 +62,14 @@ class PostsScreen extends StatelessWidget {
                                   );
                                 },
                                 icon: const Icon(Icons.edit),
-                              )
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  postController.deletePost(
+                                      id: postController.posts[index].id);
+                                },
+                                icon: const Icon(Icons.delete),
+                              ),
                             ],
                           ),
                         ],

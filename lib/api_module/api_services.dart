@@ -103,6 +103,45 @@ class ApiServices {
     }
   }
 
+  void deleteMyPost({required int postId}) async {
+    try {
+      await EasyLoading.show(status: 'Please Wait ...', dismissOnTap: true);
+      await dio.delete(
+        baseurl + updatePosts + postId.toString(),
+      );
+      await EasyLoading.showSuccess('Your post has been deleted sucessfully',
+          duration: const Duration(seconds: 5), dismissOnTap: true);
+
+      Future.delayed(const Duration(seconds: 5), () {
+        EasyLoading.dismiss();
+      });
+    } on DioException catch (e) {
+      print('===exception on deleting post=========$e===============');
+
+      if (e.type == DioExceptionType.badResponse) {
+        await EasyLoading.showError('Bad Response');
+      } else if (e.type == DioExceptionType.connectionTimeout) {
+        await EasyLoading.showError(
+          'Connection time out Please try Again',
+        );
+      } else if (e.type == DioExceptionType.receiveTimeout) {
+        await EasyLoading.showError(
+          'Unable to connect to Server please try again',
+        );
+      } else if (e.type == DioExceptionType.cancel) {
+        await EasyLoading.showError(
+          'Request has been Canceled please try Again',
+        );
+      } else if (e.type == DioExceptionType.unknown) {
+        await EasyLoading.showError('Something Went Wrong Please try Again');
+      }
+      return null;
+    } catch (e) {
+      await EasyLoading.showError(e.toString());
+      return null;
+    }
+  }
+
   Future<List<PostModel>?> getPosts() async {
     Response response = await dio.get(baseurl + posts);
     if (response.statusCode == 200) {

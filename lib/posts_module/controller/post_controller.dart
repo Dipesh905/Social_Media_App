@@ -40,6 +40,15 @@ class PostController extends GetxController {
     }
   }
 
+  deletePost({required int id}) async {
+    try {
+      isLoading(true);
+      ApiServices().deleteMyPost(postId: id);
+    } finally {
+      isLoading(false);
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
