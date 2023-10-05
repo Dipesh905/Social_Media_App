@@ -5,19 +5,21 @@ import 'package:flutter_social_media_app/posts_module/controller/post_controller
 import 'package:flutter_social_media_app/posts_module/model/post_model.dart';
 import 'package:get/get.dart';
 
-class AddNewPostScreen extends StatelessWidget {
-  AddNewPostScreen({super.key});
+class AddOrUpdatePostScreen extends StatelessWidget {
+  AddOrUpdatePostScreen({super.key, this.postModel});
 
+  final PostModel? postModel;
   final PostController postController = Get.find();
-
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _disController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController titleController =
+        TextEditingController(text: postModel != null ? postModel!.title : '');
+    final TextEditingController disController =
+        TextEditingController(text: postModel != null ? postModel!.body : '');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add New Post'),
+        title: Text(postModel != null ? 'Update Post' : 'Add New Post'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -27,48 +29,77 @@ class AddNewPostScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: InputFieldWidget(
-                  controller: _titleController,
+                  controller: titleController,
                   labelText: "Title",
                   validator: (value) =>
                       value == null ? "Enter the title" : null,
                 ),
               ),
               InputFieldWidget(
-                controller: _disController,
+                controller: disController,
                 labelText: "Description",
                 validator: (value) =>
                     value == null ? "Enter the description" : null,
               ),
               ButtonWidget(
                   onPressed: () async {
-                    PostModel? recentlyAddedPost =
-                        await postController.addNewPosts(
-                      body: {
-                        'title': _titleController.text,
-                        'body': _disController.text,
-                        'userId': 1,
-                      },
-                    );
-
-                    if (recentlyAddedPost != null) {
-                      Get.defaultDialog(
-                        title: 'Sucess',
-                        backgroundColor: Colors.green,
-                        content: Column(
-                          children: [
-                            const Text(
-                                'Your post has been sucessfully Uploaded'),
-                            Text('Title: ${recentlyAddedPost.title}'),
-                            Text('Discription: ${recentlyAddedPost.body}'),
-                          ],
-                        ),
+                    if (postModel != null) {
+                      PostModel? updatedPost = await postController.updatePost(
+                        body: {
+                          'title': titleController.text,
+                          'body': disController.text,
+                          'userId': postModel!.userId,
+                          'id': postModel!.id
+                        },
                       );
 
-                      _titleController.clear();
-                      _disController.clear();
+                      if (updatedPost != null) {
+                        Get.defaultDialog(
+                          title: 'Sucess',
+                          backgroundColor: Colors.green,
+                          content: Column(
+                            children: [
+                              const Text(
+                                  'Your post has been updated sucessfully'),
+                              Text('Title: ${updatedPost.title}'),
+                              Text('Discription: ${updatedPost.body}'),
+                            ],
+                          ),
+                        );
+
+                        titleController.clear();
+                        disController.clear();
+                      }
+                    } else {
+                      PostModel? recentlyAddedPost =
+                          await postController.addNewPosts(
+                        body: {
+                          'title': titleController.text,
+                          'body': disController.text,
+                          'userId': 1,
+                        },
+                      );
+
+                      if (recentlyAddedPost != null) {
+                        Get.defaultDialog(
+                          title: 'Sucess',
+                          backgroundColor: Colors.green,
+                          content: Column(
+                            children: [
+                              const Text(
+                                  'Your post has been sucessfully Uploaded'),
+                              Text('Title: ${recentlyAddedPost.title}'),
+                              Text('Discription: ${recentlyAddedPost.body}'),
+                            ],
+                          ),
+                        );
+
+                        titleController.clear();
+                        disController.clear();
+                      }
                     }
                   },
-                  buttonTitle: 'Add Post'),
+                  buttonTitle: postModel != null ? 'Update Post' : 'Add Post'),
             ],
           ),
         ),

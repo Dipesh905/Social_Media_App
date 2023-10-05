@@ -61,6 +61,48 @@ class ApiServices {
     }
   }
 
+  Future<PostModel?> updateMyPost({required Map<String, dynamic> body}) async {
+    try {
+      await EasyLoading.show(status: 'Please Wait ...', dismissOnTap: true);
+      Response response = await dio.put(
+        baseurl + updatePosts + body['id'].toString(),
+        data: body,
+        options: Options(
+          headers: <String, dynamic>{
+            'Content-type': 'application/json; charset=UTF-8'
+          },
+        ),
+      );
+      EasyLoading.dismiss();
+
+      return PostModel.fromJson(response.data);
+    } on DioException catch (e) {
+      print('===exception on updating post=========$e===============');
+
+      if (e.type == DioExceptionType.badResponse) {
+        await EasyLoading.showError('Bad Response');
+      } else if (e.type == DioExceptionType.connectionTimeout) {
+        await EasyLoading.showError(
+          'Connection time out Please try Again',
+        );
+      } else if (e.type == DioExceptionType.receiveTimeout) {
+        await EasyLoading.showError(
+          'Unable to connect to Server please try again',
+        );
+      } else if (e.type == DioExceptionType.cancel) {
+        await EasyLoading.showError(
+          'Request has been Canceled please try Again',
+        );
+      } else if (e.type == DioExceptionType.unknown) {
+        await EasyLoading.showError('Something Went Wrong Please try Again');
+      }
+      return null;
+    } catch (e) {
+      await EasyLoading.showError(e.toString());
+      return null;
+    }
+  }
+
   Future<List<PostModel>?> getPosts() async {
     Response response = await dio.get(baseurl + posts);
     if (response.statusCode == 200) {

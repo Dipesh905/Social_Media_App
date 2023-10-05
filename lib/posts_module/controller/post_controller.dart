@@ -29,6 +29,17 @@ class PostController extends GetxController {
     }
   }
 
+  Future<PostModel?> updatePost({required Map<String, dynamic> body}) async {
+    try {
+      isLoading(true);
+      var updatedPost = await ApiServices().updateMyPost(body: body);
+
+      return updatedPost;
+    } finally {
+      isLoading(false);
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();

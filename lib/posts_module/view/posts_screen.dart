@@ -13,7 +13,7 @@ class PostsScreen extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: ElevatedButton.icon(
         onPressed: () {
-          Get.to(AddNewPostScreen());
+          Get.to(AddOrUpdatePostScreen());
         },
         label: const Text('Add New Post'),
         icon: const Icon(Icons.post_add),
@@ -58,8 +58,14 @@ class PostsScreen extends StatelessWidget {
                                 icon: const Icon(Icons.comment_bank),
                               ),
                               IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.share),
+                                onPressed: () {
+                                  Get.to(
+                                    AddOrUpdatePostScreen(
+                                      postModel: postController.posts[index],
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.edit),
                               )
                             ],
                           ),
