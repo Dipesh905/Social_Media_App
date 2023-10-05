@@ -35,8 +35,6 @@ class ApiServices {
 
       return PostModel.fromJson(response.data);
     } on DioException catch (e) {
-      print('===exception after adding post=========$e===============');
-
       if (e.type == DioExceptionType.badResponse) {
         await EasyLoading.showError('Bad Response');
       } else if (e.type == DioExceptionType.connectionTimeout) {
@@ -77,8 +75,6 @@ class ApiServices {
 
       return PostModel.fromJson(response.data);
     } on DioException catch (e) {
-      print('===exception on updating post=========$e===============');
-
       if (e.type == DioExceptionType.badResponse) {
         await EasyLoading.showError('Bad Response');
       } else if (e.type == DioExceptionType.connectionTimeout) {
@@ -116,8 +112,6 @@ class ApiServices {
         EasyLoading.dismiss();
       });
     } on DioException catch (e) {
-      print('===exception on deleting post=========$e===============');
-
       if (e.type == DioExceptionType.badResponse) {
         await EasyLoading.showError('Bad Response');
       } else if (e.type == DioExceptionType.connectionTimeout) {
