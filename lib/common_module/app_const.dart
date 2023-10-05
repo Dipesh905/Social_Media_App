@@ -1,5 +1,4 @@
-class AppConst {
-  static const baseurl = 'https://jsonplaceholder.typicode.com/';
-  static const todos = 'todos';
-  static const posts = 'posts';
-}
+const baseurl = 'https://jsonplaceholder.typicode.com/';
+const todos = 'todos';
+const posts = 'posts';
+const users = 'users';

@@ -19,6 +19,7 @@ class ToDoScreen extends StatelessWidget {
             ? const Center(child: CircularProgressIndicator())
             : toDoController.toDoLists.isNotEmpty
                 ? ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     itemCount: toDoController.toDoLists.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
